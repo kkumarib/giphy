@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import Home from './pages/Home';
+import Search from './pages/Search';
+
+// const SearchBar = React.lazy(() => import('./components/SearchBar'));
+
+const routes = [
+  {
+    title: "Gify Search",
+    path: '/',
+    component: Home,
+    exact: true,
+  },
+  {
+    title: "Gify Search",
+    path: '/search',
+    component: Search,
+    exact: true,
+  },
+  {
+    title: "Gify Search",
+    path: '/search:id',
+    component: Search,
+    exact: true,
+  }
+]
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+    {/* <React.Suspense fallback={<div>Loading</div>} /> */}
+      <BrowserRouter>
+      <Switch>
+        {
+          routes.map( props => <Route {...props} key={props.path}/>)
+        }
+      </Switch>
+      </BrowserRouter>
     </div>
   );
 }

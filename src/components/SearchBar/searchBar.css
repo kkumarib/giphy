@@ -1,0 +1,39 @@
+.SearchBar {
+    background: #fff;
+    display: flex;
+    border: 1px solid #dfe1e5;
+    box-shadow: none;
+    border-radius: 24px;
+    z-index: 3;
+    height: 44px;
+}
+
+.SearchBar:hover {
+    box-shadow: 0 2px 5px 1px rgb( 64 60 67 / 16%);
+}
+  
+div.SearchBar input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    float: left;
+    width: 100%;
+    outline: none;
+    border: none;
+    margin-left: 15px;
+}
+  
+div.SearchBar button {
+    float: left;
+    padding: 10px;
+    color: #2196f3;
+    font-size: 17px;
+    outline: none;
+    border: none;
+    margin-right: 15px;
+    cursor: pointer;
+    background: white;
+}
+  
+* {
+    box-sizing: border-box;
+}
