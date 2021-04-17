@@ -41,13 +41,27 @@ function Search() {
         let recentSearchClone =  [...recentSearch];
         
         recentSearchClone.splice(index, 1);
+
+        if(recentSearch.length === 5) {
+            recentSearchClone.pop();
+        }
+        
         setRecentSearch([data, searchValue, ...recentSearchClone]);
         submitHandler(data, true);
     }
 
     const submitHandler = (data, reset = false) => {
+        if(searchValue && !reset) {
+            let recentSearchClone = [...recentSearch];
+
+            if(recentSearch.length === 5) {
+                recentSearchClone.pop();
+            }
+            setRecentSearch([searchValue, ...recentSearchClone]);
+        }
+
         fetchGif(data);
-        searchValue && !reset && setRecentSearch([searchValue, ...recentSearch]);
+        // searchValue && !reset && setRecentSearch([searchValue, ...recentSearch]);
         setSearchValue(data);
         history.push({pathname: '/search'})
     }
