@@ -7,6 +7,7 @@ function Home() {
     let history = useHistory();
 
     const submitHandler = (data) => {
+        // history.push({pathname: '/search', search: '?' + typeof(data) == 'object' ? 'trending=true' : 'search=' + data });
         history.push({pathname: '/search', search:`?${typeof(data) == 'object' ? 'trending=true' : `search=${data}`}`});
     }
 

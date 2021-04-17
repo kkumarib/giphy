@@ -37,15 +37,15 @@ function Search() {
     }, []);
 
     const recentSearchHandler = (data) => {
-        let index = recentSearch.indexOf(data);
         let recentSearchClone =  [...recentSearch];
-        
+        let index = recentSearchClone.indexOf(data);
+        debugger;
         recentSearchClone.splice(index, 1);
 
-        if(recentSearch.length === 5) {
-            recentSearchClone.pop();
+        if(recentSearch.length > 4) {
+            recentSearchClone.length = 5;
         }
-        
+
         setRecentSearch([data, searchValue, ...recentSearchClone]);
         submitHandler(data, true);
     }
@@ -54,16 +54,15 @@ function Search() {
         if(searchValue && !reset) {
             let recentSearchClone = [...recentSearch];
 
-            if(recentSearch.length === 5) {
-                recentSearchClone.pop();
+            if(recentSearch.length > 4) {
+                recentSearchClone.length = 5;
             }
             setRecentSearch([searchValue, ...recentSearchClone]);
         }
 
         fetchGif(data);
-        // searchValue && !reset && setRecentSearch([searchValue, ...recentSearch]);
         setSearchValue(data);
-        history.push({pathname: '/search'})
+        history.push({pathname: '/search', search: `search=${data}`});
     }
 
     const getPhotoList = () => {
@@ -88,12 +87,12 @@ function Search() {
         <div className="Search">
             <SearchBar searchKey={searchValue} onSubmitHandler={submitHandler} />
             {
-                recentSearch.length > 0  && <>
+                recentSearch.length > 0  && <React.Fragment>
                 <span>Recent search :</span>
                 {
                     recentSearch.map(item => <button className="recentSearch" onClick={() => recentSearchHandler(item)}>{item}</button>)
                 }
-                </>
+                </React.Fragment>
             }
         </div>
         { gifData && <Gallery images={getPhotoList()} />}
