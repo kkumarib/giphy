@@ -11,11 +11,19 @@ function Search() {
     const [gifData, setGifData] = useState(null);
     const [searchValue, setSearchValue] = useState(null);
     const [recentSearch, setRecentSearch] = useState([]);
+    const [error, setError] = useState(null);
 
     const fetchGif = (data) => {
         fetch(`https://api.giphy.com/v1/gifs/search?api_key=mAt36dZTCYPPpU406rL0JDTJnsIlfemw&q=${data}&limit=50&offset=0&rating=g&lang=en`)
             .then(response => response.json())
-            .then(result => setGifData(result.data));
+            .then(result => {
+                if(result.data.length > 0) { 
+                    setGifData(result.data);
+                } else { 
+                    setError("Search Not found!");
+                    setGifData(null);
+                }
+            });
     };
 
     const fetchTrending = () => {
@@ -29,7 +37,9 @@ function Search() {
 
         if(searchQuery.trending) {
             fetchTrending();
-        } else {
+        }
+
+        if(searchQuery.search) {
             searchValue && setRecentSearch([searchQuery.search, ...recentSearch]);
             setSearchValue(searchQuery.search);
             fetchGif(searchQuery.search);
@@ -39,29 +49,35 @@ function Search() {
     const recentSearchHandler = (data) => {
         let recentSearchClone =  [...recentSearch];
         let index = recentSearchClone.indexOf(data);
-        debugger;
+
         recentSearchClone.splice(index, 1);
 
-        if(recentSearch.length > 4) {
-            recentSearchClone.length = 5;
+        if (data === searchValue) {
+            if (recentSearchClone.length > 4) recentSearchClone.length = 4;
+            setRecentSearch([data, ...recentSearchClone]);
+        } else {
+            if (recentSearchClone.length > 4) recentSearchClone.length = 4;
+            setRecentSearch([searchValue, ...recentSearchClone]);
         }
 
-        setRecentSearch([data, searchValue, ...recentSearchClone]);
         submitHandler(data, true);
     }
 
     const submitHandler = (data, reset = false) => {
         if(searchValue && !reset) {
             let recentSearchClone = [...recentSearch];
+            let index = recentSearchClone.indexOf(data);
+            index > -1 && recentSearchClone.splice(index, 1);
 
-            if(recentSearch.length > 4) {
-                recentSearchClone.length = 5;
+            if(searchValue !== data) {
+                if(recentSearchClone.length > 4) recentSearchClone.length = 4;
+                setRecentSearch([searchValue, ...recentSearchClone]);
             }
-            setRecentSearch([searchValue, ...recentSearchClone]);
         }
 
         fetchGif(data);
         setSearchValue(data);
+        setError(null);
         history.push({pathname: '/search', search: `search=${data}`});
     }
 
@@ -90,11 +106,12 @@ function Search() {
                 recentSearch.length > 0  && <React.Fragment>
                 <span>Recent search :</span>
                 {
-                    recentSearch.map(item => <button className="recentSearch" onClick={() => recentSearchHandler(item)}>{item}</button>)
+                    recentSearch.map(item => <button aria-label="recent" key={item} className="recentSearch" onClick={() => recentSearchHandler(item)}>{item}</button>)
                 }
                 </React.Fragment>
             }
         </div>
+        { error && <span className="error">{error}</span>}
         { gifData && <Gallery images={getPhotoList()} />}
     </div>
 };

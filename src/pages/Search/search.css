@@ -37,3 +37,8 @@ button:hover {
 button:hover > * {
     color: #2196f3;
 }
+
+.error {
+    text-align: center;
+    display: inherit;
+}
