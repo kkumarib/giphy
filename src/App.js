@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import Search from './pages/Search';
+import NotFound from './pages/NotFound';
 
 const routes = [
   {
@@ -18,9 +19,14 @@ const routes = [
   },
   {
     title: "Gify Search",
-    path: '/search:id',
+    path: '/search?:id',
     component: Search,
     exact: true,
+  },
+  {
+    title: "Not Found",
+    path: '*',
+    component: NotFound,
   }
 ]
 

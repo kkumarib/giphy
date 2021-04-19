@@ -35,15 +35,17 @@ function Search() {
     useEffect(() => {
         let searchQuery = getQueryStrings(history);
 
-        if(searchQuery.trending) {
-            fetchTrending();
-        }
-
         if(searchQuery.search) {
             searchValue && setRecentSearch([searchQuery.search, ...recentSearch]);
             setSearchValue(searchQuery.search);
             fetchGif(searchQuery.search);
+        } else if(searchQuery.trending) {
+            fetchTrending();
+        } else {
+            setError("Something went wrong, please try again!");
+            setGifData(null);
         }
+
     }, []);
 
     const recentSearchHandler = (data) => {

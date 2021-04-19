@@ -41,4 +41,5 @@ button:hover > * {
 .error {
     text-align: center;
     display: inherit;
+    color: red;
 }
