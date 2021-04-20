@@ -1,15 +1,15 @@
-import { render, fireEvent, waitForElement } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createMemoryHistory } from 'history'
+import { createMemoryHistory } from 'history';
 import React from 'react'
-import { Route, Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import Search from '../pages/Search';
 
 describe('render Search page', () => {
     let view;
 
     beforeEach(()=> {
-        const history = createMemoryHistory()
+        const history = createMemoryHistory();
         view = render(<Router history={history}><Search /></Router>);
         history.push({pathname:"/search", search:"?search=smile"});
     });
